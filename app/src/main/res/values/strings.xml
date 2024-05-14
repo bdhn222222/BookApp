@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">BookApp</string>
+    <string name="welcome_to_book_app">Welcome to Book App</string>
+    <string name="continue_without_login">Continue without Login</string>
+    <string name="login">Login</string>
 </resources>
