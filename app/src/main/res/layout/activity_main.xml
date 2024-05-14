@@ -33,8 +33,9 @@
         android:background="@drawable/shape_button01"
         android:text="@string/login"
         android:layout_above="@id/skipBtn"
-        android:textColor="@color/white"
-        />
+        android:textColor="@color/white"/>
+    <!-- layout_above : đặt Button sao cho nó sẽ ở trên 1 Button có id SkipBtn -->
+
     <Button
         android:id="@+id/skipBtn"
         android:layout_width="match_parent"
