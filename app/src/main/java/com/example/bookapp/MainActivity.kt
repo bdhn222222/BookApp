@@ -1,5 +1,6 @@
 package com.example.bookapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,11 +16,12 @@ class MainActivity : AppCompatActivity() {
         // sử dụng AMB để liên kết với layout acitivity_main.xml với biến binding
         setContentView(binding.root)
 
-        binding.loginBtn.setOnClickListener{
-            //later
+        binding.loginBtn.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
         }
-        binding.skipBtn.setOnClickListener{
 
+        binding.skipBtn.setOnClickListener {
+            startActivity(Intent(this, DashboardUserActivity::class.java))
         }
 
     }
