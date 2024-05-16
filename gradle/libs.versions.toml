@@ -22,6 +22,8 @@ firebaseDatabase = "21.0.0"
 firebaseCrashlytics = "19.0.0"
 gradle = "8.1.0"
 firebaseCrashlyticsGradle = "3.0.0"
+firebaseStorageKtx = "21.0.0"
+firebaseStorage = "21.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -52,6 +54,8 @@ firebase-database = { group = "com.google.firebase", name = "firebase-database",
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
 gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "gradle" }
 firebase-crashlytics-gradle = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
+firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
+firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

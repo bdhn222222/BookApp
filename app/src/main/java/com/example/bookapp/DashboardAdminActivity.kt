@@ -1,5 +1,6 @@
 package com.example.bookapp
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -72,6 +73,10 @@ class DashboardAdminActivity : AppCompatActivity() {
         binding.addCategoryBtn.setOnClickListener {
             startActivity(Intent(this, CategoryAddActivity::class.java))
         }
+        binding.addPdfFad.setOnClickListener{
+            startActivity(Intent(this,PdfAddActivity::class.java))
+
+        }
 
     }
 
@@ -85,6 +90,7 @@ class DashboardAdminActivity : AppCompatActivity() {
 
         // Thêm sự kiện lắng nghe cho dữ liệu thay đổi trên node "Categories"
         ref.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("SuspiciousIndentation")
             override fun onDataChange(snapshot: DataSnapshot) {
                 // clear list before starting adding data into it
                 // Xóa danh sách trước khi thêm dữ liệu mới vào
