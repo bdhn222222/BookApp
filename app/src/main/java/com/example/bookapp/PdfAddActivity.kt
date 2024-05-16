@@ -25,84 +25,87 @@ import com.google.firebase.storage.FirebaseStorage
 
 class PdfAddActivity : AppCompatActivity() {
 
-    // setup view binding activity_pdf_add --> ActivityPdfAddBinding
+    // Thiết lập view binding activity_pdf_add --> ActivityPdfAddBinding
     private lateinit var binding: ActivityPdfAddBinding
 
-    // firebase auth
+    // Xác thực Firebase
     private lateinit var firebaseAuth: FirebaseAuth
 
-    // progress dialog (show while uploading pdf)
+    // Tiến trình tiến trình (hiển thị trong quá trình tải lên PDF)
     private lateinit var progressDialog: ProgressDialog
 
-    // arraylist to hold pdf categories
+    // ArrayList để chứa các loại PDF
     private lateinit var categoryArrayList: ArrayList<ModelCategory>
 
-    // uri of picked pdf
+    // URI của PDF đã chọn
     private var pdfUri: Uri? = null
 
-    // TAG
+    // Thẻ để đánh dấu (sử dụng để ghi nhật ký)
     private val TAG = "PDF_ADD_TAG"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPdfAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // init firebase auth
+        // Khởi tạo xác thực Firebase
         firebaseAuth = FirebaseAuth.getInstance()
+        // Tải danh mục PDF
         loadPdfCategories()
 
-        // setup progress dialog
+        // Thiết lập tiến trình tiến trình
         progressDialog = ProgressDialog(this)
-        progressDialog.setTitle("Please wait")
+        progressDialog.setTitle("Vui lòng đợi")
         progressDialog.setCanceledOnTouchOutside(false)
 
-        // handle click, go back
-        binding.backBtn.setOnClickListener{
+        // Xử lý khi click nút "Quay lại"
+        binding.backBtn.setOnClickListener {
             onBackPressed()
         }
 
-        // handle click, show category pick dialog
+        // Xử lý khi click vào textview danh mục
         binding.categoryTv.setOnClickListener {
             categoryPickDialog()
         }
 
-        // handle click, pick pdf intent
+        // Xử lý khi click chọn PDF
         binding.attachPdfBtn.setOnClickListener {
             pdfPickIntent()
         }
 
-        // handle click, go back
-        binding.backBtn.setOnClickListener{
+        // Xử lý khi click nút "Quay lại"
+        binding.backBtn.setOnClickListener {
             onBackPressed()
         }
 
-        // handle click, start uploading pdf/book
+        // Xử lý khi click nút "Tải lên"
         binding.submitBtn.setOnClickListener {
-            // ste1: validate data
-            // step2: upload pdf to firebase storage
-            // step2: get url of uploaded pdf
-            // step4 upload pdf info to firebase db
+            // Bước 1: Xác thực dữ liệu
+            // Bước 2: Tải lên PDF lên kho lưu trữ Firebase
+            // Bước 3: Lấy URL của PDF đã tải lên
+            // Bước 4: Tải thông tin PDF lên cơ sở dữ liệu Firebase
 
             validateData()
         }
     }
+
 
     private var title = ""
     private var description = ""
     private var category = ""
 
     private fun validateData() {
-        // validate data
+        // Xác thực dữ liệu
         Log.d(TAG, "validateData: validating data")
 
-        // get data
+        // Lấy dữ liệu
         title = binding.titleEt.text.toString().trim()
         description = binding.descriptionEt.text.toString().trim()
         category = binding.categoryTv.text.toString().trim()
 
-        // validate data
-        if (title.isEmpty()) {
+        // Xác thực dữ liệu
+        if (title.isEmpty()) { // nếu 1 trong các thông tin trống
             Toast.makeText(this, "Enter Title...", Toast.LENGTH_SHORT).show()
         } else if (description.isEmpty()) {
             Toast.makeText(this, "Enter Description...", Toast.LENGTH_SHORT).show()
@@ -113,41 +116,46 @@ class PdfAddActivity : AppCompatActivity() {
 
 
         } else {
-            // data validated, begin upload
+            // Dữ liệu đã được xác thực, bắt đầu tải lên
             uploadPdfToStorage()
         }
 
     }
 
     private fun uploadPdfToStorage() {
-        // step2: upload data to firebase storage
+        // Bước 2: tải dữ liệu lên kho lưu trữ Firebase
         Log.d(TAG, "uploadPdfToStorage: uploading to storage...")
 
-        // show progress dialog
+        // Hiển thị hộp thoại tiến trình
         progressDialog.setMessage("Uploading PDF")
         progressDialog.show()
 
         // timestamp
         val timestamp = System.currentTimeMillis()
 
-        // path of pdf ifn firebase storage
+        // Đường dẫn của tập tin PDF trong kho lưu trữ Firebase
         val filePathAndName = "Books/$timestamp"
 
-        // storage reference
+        // Tham chiếu lưu trữ đến vị trí được chỉ định
         val storageReference = FirebaseStorage.getInstance().getReference(filePathAndName)
+        // Đưa tập tin PDF lên lưu trữ Firebase
         storageReference.putFile(pdfUri!!).addOnSuccessListener { taskSnapshot ->
+            // Bước 3: Tải tập tin PDF lên thành công, tiến hành lấy URL
             Log.d(
                 TAG, "uploadPdfToStorage: PDF uploaded now getting url..."
             )
-            // step3: get url of uploaded pdf
+            // Tạo tác vụ để lấy URL của tập tin vừa tải lên
             val uriTask: Task<Uri> = taskSnapshot.storage.downloadUrl
             while (!uriTask.isSuccessful);
             val uploadedPdfUrl = "${uriTask.result}"
 
+            // Sau khi có URL, tiến hành tải thông tin PDF lên cơ sở dữ liệu Firebase
             uploadPdfInfoToDb(uploadedPdfUrl, timestamp)
 
         }.addOnFailureListener { e ->
+            // Xảy ra lỗi trong quá trình tải lên
             Log.d(TAG, "uploadPdfToStorage: failed to upload due to ${e.message}")
+            // Tắt hộp thoại tiến trình và hiển thị thông báo lỗi
             progressDialog.dismiss()
             Toast.makeText(this, "Failed to upload due to ${e.message}", Toast.LENGTH_SHORT).show()
 
@@ -155,14 +163,15 @@ class PdfAddActivity : AppCompatActivity() {
     }
 
     private fun uploadPdfInfoToDb(uploadedPdfUrl: String, timestamp: Long) {
-        // step4: upload pdf info to firebase db
+        // Bước 4: Tải thông tin PDF lên cơ sở dữ liệu Firebase
         Log.d(TAG, "uploadPdfInfoToDb: uploading to db")
+        // Hiển thị hộp thoại tiến trình
         progressDialog.setMessage("Uploading pdf info...")
 
-        // uid of current user
+        // UID của người dùng hiện tại
         val uid = firebaseAuth.uid
 
-        // setup data to upload
+        // Thiết lập dữ liệu cần tải lên
         val hashMap: HashMap<String, Any> = HashMap()
         hashMap["uid"] = "$uid"
         hashMap["id"] = "$timestamp"
@@ -174,11 +183,11 @@ class PdfAddActivity : AppCompatActivity() {
         hashMap["viewCount"] = 0
         hashMap["downloadsCount"] = 0
 
-        //
+        // Tham chiếu đến cơ sở dữ liệu "Books"
         val ref = FirebaseDatabase.getInstance().getReference("Books")
         ref.child("$timestamp").setValue(hashMap)
             .addOnSuccessListener {
-
+                // Tải lên thành công
                 Log.d(TAG, "uploadPdfInfoToDb: uploaded to db")
                 progressDialog.dismiss()
                 Toast.makeText(this, "Uploaded...", Toast.LENGTH_SHORT)
@@ -186,6 +195,7 @@ class PdfAddActivity : AppCompatActivity() {
                 pdfUri = null
 
             }.addOnFailureListener { e ->
+                // Xảy ra lỗi trong quá trình tải lên
                 Log.d(TAG, "uploadPdfInfoToDb: failed to upload due to ${e.message}")
                 progressDialog.dismiss()
                 Toast.makeText(this, "Failed to upload due to ${e.message}", Toast.LENGTH_SHORT)
@@ -194,20 +204,24 @@ class PdfAddActivity : AppCompatActivity() {
     }
 
     private fun loadPdfCategories() {
+        // Tải danh mục PDF từ cơ sở dữ liệu Firebase
         Log.d(TAG, "loadPdfCategories: Loading pdf categories")
-        //init arraylist
+
+        // Khởi tạo danh sách arraylist
         categoryArrayList = ArrayList()
         // db reference to load categories DF > Categories
+
+        // Tham chiếu đến cơ sở dữ liệu để tải danh mục
         val ref = FirebaseDatabase.getInstance().getReference("Categories")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                // clear list before adding data
+                // Xóa danh sách trước khi thêm dữ liệu mới
                 categoryArrayList.clear()
                 for (ds in snapshot.children) {
                     // get data
                     val model = ds.getValue(ModelCategory::class.java)
 
-                    // add to arraylist
+                    // Thêm vào danh sách arraylist
                     categoryArrayList.add(model!!)
                     Log.d(TAG, "onDataChange: ${model.category}")
                 }
@@ -220,30 +234,34 @@ class PdfAddActivity : AppCompatActivity() {
 
     }
 
+    // Khai báo biến để lưu trữ ID và tiêu đề của danh mục được chọn
     private var selectedCategoryId = ""
     private var selectedCategoryTitle = ""
 
+    // Hàm này hiển thị hộp thoại cho phép người dùng chọn một danh mục từ danh sách có sẵn
     private fun categoryPickDialog() {
+        // Ghi log để theo dõi quá trình hiển thị hộp thoại
         Log.d(TAG, "categoryPickDialog: Showing pdf category pick dialog")
 
-        // get string array of categories from arraylsit
+        // Tạo một mảng chuỗi để lưu trữ tên của các danh mục
         val categoriesArray = arrayOfNulls<String>(categoryArrayList.size)
         for (i in categoryArrayList.indices) {
             categoriesArray[i] = categoryArrayList[i].category
         }
 
-        // alert dialog
+        // Tạo hộp thoại lựa chọn danh mục
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Pick Category")
+            // Đặt danh sách lựa chọn bằng các danh mục từ mảng
             .setItems(categoriesArray) { dialog, which ->
-                // handle item click
-                // get clicked item
+                // Xử lý sự kiện khi một mục được chọn
                 selectedCategoryTitle = categoryArrayList[which].category
                 selectedCategoryId = categoryArrayList[which].id
 
-                // set category to textview
+                // Hiển thị tiêu đề của danh mục được chọn lên TextView
                 binding.categoryTv.text = selectedCategoryTitle
 
+                // Ghi log để theo dõi ID và tiêu đề của danh mục được chọn
                 Log.d(TAG, "categoryPickDialog: Selected Category ID: $selectedCategoryId")
                 Log.d(TAG, "categoryPickDialog: Selected Category Title: $selectedCategoryTitle")
 
@@ -251,28 +269,42 @@ class PdfAddActivity : AppCompatActivity() {
             .show()
     }
 
+    // Hàm này bắt đầu một Intent để chọn một tệp PDF từ bộ nhớ thiết bị
     private fun pdfPickIntent() {
+        // Ghi log để theo dõi quá trình bắt đầu Intent
         Log.d(TAG, "pdfPickIntent: starting pdf pick intent")
 
+        // Tạo một Intent
         val intent = Intent()
+
+        // Đặt loại tệp cần chọn là PDF
         intent.type = "application/pdf"
+
+        // Đặt hành động của Intent để lấy nội dung
         intent.action = Intent.ACTION_GET_CONTENT
+
+        // Khởi chạy Intent để chọn tệp PDF và chờ kết quả trả về
         pdfActivityResultLauncher.launch(intent)
     }
 
+
+    // Đăng ký một Activity Result Launcher để xử lý kết quả trả về từ Intent khi chọn tệp PDF
     val pdfActivityResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult(),
         ActivityResultCallback<ActivityResult> { result ->
+            // Kiểm tra xem kết quả trả về có thành công không
             if (result.resultCode == RESULT_OK) {
+                // Nếu thành công, ghi log và lấy đường dẫn của tệp PDF được chọn
                 Log.d(TAG, "PDF Picked")
                 pdfUri = result.data!!.data
             } else {
+                // Nếu không thành công, ghi log và hiển thị thông báo cho người dùng
                 Log.d(TAG, "PDF Pick cancelled")
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
-
             }
         }
     )
+
 
 
 }
