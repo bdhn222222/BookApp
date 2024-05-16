@@ -100,21 +100,30 @@ class LoginActivity : AppCompatActivity() {
         val ref = FirebaseDatabase.getInstance().getReference("Users")
         ref.child(firebaseUser.uid)
             .addListenerForSingleValueEvent(object :ValueEventListener{
+
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    progressDialog.dismiss()
-                    //xem user loai nao admin hay user
-                    val userType = snapshot.child("userType").value
-                    if(userType == "user"){
-                        //di den user dashboard
-                        startActivity(Intent(this@LoginActivity, DashboardUserActivity::class.java))
-                        finish()
-                    }
-                    else if (userType=="admin"){
-                        //di den admin dashboard
-                        startActivity(Intent(this@LoginActivity, DashboardAdminActivity::class.java))
-                        finish()
+                    progressDialog.dismiss() // Ẩn hộp thoại tiến trình
+
+                    // Kiểm tra loại người dùng
+                    val userType = snapshot.child("userType").value as? String
+                    when (userType) {
+                        "user" -> {
+                            // Chuyển đến trang dashboard của người dùng
+                            startActivity(Intent(this@LoginActivity, DashboardUserActivity::class.java))
+                            finish()
+                        }
+                        "admin" -> {
+                            // Chuyển đến trang dashboard của quản trị viên
+                            startActivity(Intent(this@LoginActivity, DashboardAdminActivity::class.java))
+                            finish()
+                        }
+                        else -> {
+                            // Xử lý trường hợp không xác định loại người dùng
+                            // Ví dụ: hiển thị thông báo lỗi hoặc yêu cầu người dùng đăng nhập lại
+                        }
                     }
                 }
+
                 override fun onCancelled(error: DatabaseError) {
 
                 }

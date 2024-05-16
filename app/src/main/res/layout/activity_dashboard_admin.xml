@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_centerHorizontal="true"
-            android:text="Dashboard User"
+            android:text="Dashboard Admin"
             android:textColor="@color/white"
             android:textStyle="bold"/>
         <TextView
@@ -68,13 +68,15 @@
 
         <!--Add Pdf-->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addPdfab"
+            android:id="@+id/addPdfFad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/purple_500"
             app:fabCustomSize="50dp"
             android:src="@drawable/ic_pdf_add_white"
-            android:tint="@color/white"/>
+            android:tint="@color/white">
+
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
     </LinearLayout>
 

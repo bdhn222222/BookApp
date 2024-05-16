@@ -36,9 +36,11 @@ class DashboardAdminActivity : AppCompatActivity() {
             firebaseAuth.signOut()
             checkUser()
         }
-        /*binding.addPdfab.setOnClickListener{
-            startActivity(Intent(this, PdfAddActivity::class.java))
-        }*/
+
+        binding.addCategoryBtn.setOnClickListener {
+            startActivity(Intent(this,CategoryAddActivity::class.java))
+        }
+
     }
 
 
