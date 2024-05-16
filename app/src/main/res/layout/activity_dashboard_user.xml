@@ -42,6 +42,5 @@
             android:layout_alignParentEnd="true"
             />
     </RelativeLayout>
-]
 
 </RelativeLayout>

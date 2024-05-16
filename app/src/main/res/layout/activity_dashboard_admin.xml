@@ -2,11 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back01"
     tools:context=".DashboardAdminActivity">
+
+    <!--Toolbar-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
@@ -41,5 +42,40 @@
             android:layout_alignParentEnd="true"
             />
     </RelativeLayout>
+
+    <!--Bottom Layout-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp">
+
+        <Button
+            android:id="@+id/addCategoryBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shape_button01"
+            android:minHeight="50dp"
+            android:text="+ Add Category"
+            android:textAllCaps="false"
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/white"/>
+        <!--android:background="@drawable/shape_button01"-->
+
+        <!--Add Pdf-->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addPdfab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/purple_500"
+            app:fabCustomSize="50dp"
+            android:src="@drawable/ic_pdf_add_white"
+            android:tint="@color/white"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

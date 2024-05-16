@@ -55,6 +55,7 @@
                 android:id="@+id/nameTil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 app:hintEnabled="false">
                 <EditText
                     android:id="@+id/nameEt"
@@ -73,6 +74,7 @@
             <!-- Email -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/emailTil"
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/nameTil"
@@ -97,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/emailTil"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="20dp"
                 app:passwordToggleEnabled="true"
                 app:hintEnabled="false">
                 <EditText
@@ -119,7 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/passwordTil"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="20dp"
                 app:passwordToggleEnabled="true"
                 app:hintEnabled="false">
                 <EditText
@@ -145,7 +147,7 @@
                 android:text="REGISTER"
                 android:layout_below="@+id/cPasswordTil"
                 android:textColor="@color/white"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/shape_button01"/>
 
 
