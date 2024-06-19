@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">BookApp</string>
-    <string name="welcome_to_book_app">Welcome to Book App</string>
-    <string name="continue_without_login">Continue without Login</string>
-    <string name="login">Login</string>
+    <string name="app_name">BookAppYT</string>
+    <string name="please_login">Please Login</string>
+    <string name="email">Email</string>
+    <string name="new_user_signup">New User? <b>SignUp</b></string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -45,7 +45,4 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
-    <string name="please_login">Please Login</string>
-    <string name="email">Email</string>
-    <string name="new_user_signup">New User? <b>SignUp</b> </string>
 </resources>

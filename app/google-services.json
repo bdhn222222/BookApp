@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "625471652485",
+    "firebase_url": "https://bookapp-000-default-rtdb.firebaseio.com",
     "project_id": "bookapp-000",
     "storage_bucket": "bookapp-000.appspot.com"
   },
@@ -10,6 +11,25 @@
         "mobilesdk_app_id": "1:625471652485:android:ae0df214bd12ccb9805fec",
         "android_client_info": {
           "package_name": "com.example.bookapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdHZFjy7QdMouIZECFcpd41qCAZ4plUbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:625471652485:android:7b1ccfc160c3fb76805fec",
+        "android_client_info": {
+          "package_name": "com.example.bookappyt"
         }
       },
       "oauth_client": [],
